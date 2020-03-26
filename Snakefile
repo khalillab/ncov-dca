@@ -20,6 +20,8 @@ rule all:
 
 rule files:
     params:
+        raw_sequences = 'gisaid_cov2020_sequences.fasta',
+        raw_metadata = 'metadata.tsv',
         include = "config/include.txt",
         exclude = "config/exclude.txt",
         reference = "config/reference.gb",
@@ -38,14 +40,17 @@ rule files:
 files = rules.files.params
 
 rule download:
-    message: "Downloading metadata and fasta files from S3"
+    message: "Preprocessing fasta file"
+    input:
+        sequences = files.raw_sequences,
+        metadata = files.raw_metadata,
     output:
         sequences = config["sequences"],
         metadata = config["metadata"]
     shell:
         """
-        aws s3 cp s3://nextstrain-ncov-private/sequences.fasta {output.sequences:q}
-        aws s3 cp s3://nextstrain-ncov-private/metadata.tsv {output.metadata:q}
+        python3 scripts/preprocess_sequences.py {input.sequences:q} {output.sequences:q}
+        cp {input.metadata:q} {output.metadata:q}
         """
 
 rule filter:
@@ -160,6 +165,46 @@ rule mask:
             --mask-sites {params.mask_sites} \
             --output {output.alignment}
         """
+
+rule baps:
+    message: "BAPS clustering"
+    input:
+        alignment = rules.mask.output.alignment
+    output:
+        clusters = "results/baps.csv"
+    shell:
+        """
+        Rscript scripts/baps.R {input.alignment} {output.clusters}
+	"""
+
+rule couplings:
+    message: "Direct coupling analysis"
+    input:
+        alignment = rules.mask.output.alignment
+    output:
+        loci = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.loci",
+        couplings = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.4-states.SuperDCA_couplings.1-based.all",
+	alignment = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.fasta"
+    shell:
+        """
+        cd results/ && ../bin/SuperDCA --alignmentfile ../{input.alignment} -t 1 --output-weights --output-filtered-alignment --output-allele-frequencies --output-filterlist-alignment
+	"""
+
+rule ranked_couplings:
+    message: "Post-process direct coupling analysis"
+    input:
+	clusters = rules.baps.output.clusters,
+        loci = rules.couplings.output.loci,
+        couplings = rules.couplings.output.couplings,
+	alignment = rules.couplings.output.alignment
+    output:
+        couplings = "results/couplings.tsv",
+        ranking = "results/ranked_couplings.tsv"
+    shell:
+        """
+        python3 scripts/postprocess_superdca.py {input.loci} {input.couplings} > {output.couplings}
+	Rscript scripts/couplings_phylogenetic_ranking.R {output.couplings} {input.clusters} {input.alignment} {output.ranking}
+	"""
 
 rule tree:
     message: "Building tree"
