@@ -193,7 +193,7 @@ rule couplings:
 rule ranked_couplings:
     message: "Post-process direct coupling analysis"
     input:
-	clusters = rules.baps.output.clusters,
+        clusters = rules.baps.output.clusters,
         loci = rules.couplings.output.loci,
         couplings = rules.couplings.output.couplings,
 	alignment = rules.couplings.output.alignment
@@ -318,6 +318,31 @@ rule translate:
             --ancestral-sequences {input.node_data} \
             --reference-sequence {input.reference} \
             --output-node-data {output.node_data} \
+        """
+
+rule nt_aa_table:
+    message: "nt -> aa conversion table"
+    input:
+        reference = files.reference
+    output:
+        nt_aa_table = "results/nt_aa.tsv"
+    shell:
+        """
+        python3 scripts/gbk2table.py {input.reference} > {output.nt_aa_table}
+        """
+
+rule annotate_couplings:
+    message: "Annotate couplings with coding mutations"
+    input:
+        nt_aa_table = rules.nt_aa_table.output.nt_aa_table,
+	nt = rules.ancestral.output.node_data,
+        aa = rules.translate.output.node_data,
+	couplings = rules.ranked_couplings.output.ranking
+    output:
+        couplings = "results/annotated_ranked_couplings.tsv"
+    shell:
+        """
+        python3 scripts/annotate_couplings.py {input.nt_aa_table} {input.nt} {input.aa} {input.couplings} > {output.couplings}
         """
 
 rule traits:
