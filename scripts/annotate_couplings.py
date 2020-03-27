@@ -6,6 +6,7 @@ import sys
 import json
 import numpy as np
 import pandas as pd
+from Bio import Phylo
 
 
 def get_options():
@@ -14,6 +15,8 @@ def get_options():
 
     parser.add_argument('ntaa',
                         help='nt -> aa conversion table')
+    parser.add_argument('tree',
+                        help='Tree Newick file')
     parser.add_argument('nt',
                         help='nt JSON file')
     parser.add_argument('aa',
@@ -40,6 +43,14 @@ if __name__ == "__main__":
                for k in nt['nodes']
                if not k.startswith('NODE_')}
 
+    t = Phylo.read(options.tree, 'newick')
+    for c in t.get_nonterminals():
+        if c.name not in nt['nodes']:
+            continue
+        for m in nt['nodes'][c.name]['muts']:
+            for n in c.get_terminals():
+                nt_muts[n.name].add(int(m[1:-1]))
+
     aa = json.load(open(options.aa))
 
     aa_muts = {}
@@ -52,7 +63,15 @@ if __name__ == "__main__":
                 aa_muts[sample][gene] = set()
             for mut in muts:
                 aa_muts[sample][gene].add(int(mut[1:-1]))
-
+    for c in t.get_nonterminals():
+        if c.name not in aa['nodes']:
+            continue
+        for g, ms in aa['nodes'][c.name]['aa_muts'].items():
+            for n in c.get_terminals():
+                aa_muts[n.name][g] = aa_muts[n.name].get(g, set())
+                for m in ms:
+                    aa_muts[n.name][g].add(int(m[1:-1]))
+    
     nt_aa_muts = {}
     for k, v in nt_muts.items():
         for m in v:

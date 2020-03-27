@@ -274,7 +274,8 @@ rule ancestral:
         tree = "results/tree.nwk",
         alignment = rules.mask.output
     output:
-        node_data = "results/nt_muts.json"
+        node_data = "results/nt_muts.json",
+        alignment = "results/alignment_ancestral.fasta"
     params:
         inference = "joint"
     shell:
@@ -284,7 +285,8 @@ rule ancestral:
             --alignment {input.alignment} \
             --output-node-data {output.node_data} \
             --inference {params.inference} \
-            --infer-ambiguous
+            --infer-ambiguous \
+            --output-sequences {output.alignment}
         """
 
 rule haplotype_status:
@@ -310,13 +312,16 @@ rule translate:
         node_data = rules.ancestral.output.node_data,
         reference = files.reference
     output:
-        node_data = "results/aa_muts.json"
+        node_data = "results/aa_muts.json",
+    params:
+        alignment = "results/aligned_aa_%GENE.fasta" 
     shell:
         """
         augur translate \
             --tree {input.tree} \
             --ancestral-sequences {input.node_data} \
             --reference-sequence {input.reference} \
+            --alignment-output {params.alignment} \
             --output-node-data {output.node_data} \
         """
 
@@ -335,14 +340,15 @@ rule annotate_couplings:
     message: "Annotate couplings with coding mutations"
     input:
         nt_aa_table = rules.nt_aa_table.output.nt_aa_table,
-	nt = rules.ancestral.output.node_data,
+	tree = rules.refine.output.tree,
+        nt = rules.ancestral.output.node_data,
         aa = rules.translate.output.node_data,
 	couplings = rules.ranked_couplings.output.ranking
     output:
         couplings = "results/annotated_ranked_couplings.tsv"
     shell:
         """
-        python3 scripts/annotate_couplings.py {input.nt_aa_table} {input.nt} {input.aa} {input.couplings} > {output.couplings}
+        python3 scripts/annotate_couplings.py {input.nt_aa_table} {input.tree} {input.nt} {input.aa} {input.couplings} > {output.couplings}
         """
 
 rule traits:
