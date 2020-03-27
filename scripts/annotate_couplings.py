@@ -85,4 +85,8 @@ if __name__ == "__main__":
         for gene, pos in nt_aa_muts.get(int(v[2]), ()):
             r.loc[i, gene + '_2'] = pos
 
+    r = r[[r.columns[1], r.columns[2], 'coups.ranked.phyl.rank',
+           r.columns[0], 'both'] + sorted(genes)]
+    r.columns = ['pos1', 'pos2', 'phylogenetic_ranking',
+                 'coupling_strength', 'both_coding'] + sorted(genes)
     r.to_csv(sys.stdout, sep='\t', index=False)
