@@ -204,22 +204,6 @@ rule couplings:
         cd results/ && ../bin/SuperDCA --alignmentfile ../{input.alignment} -t 1 --output-weights --output-filtered-alignment --output-allele-frequencies --output-filterlist-alignment
 	"""
 
-rule ranked_couplings:
-    message: "Post-process direct coupling analysis"
-    input:
-        clusters = rules.baps.output.clusters,
-        loci = rules.couplings.output.loci,
-        couplings = rules.couplings.output.couplings,
-	alignment = rules.couplings.output.alignment
-    output:
-        couplings = "results/couplings.tsv",
-        ranking = "results/ranked_couplings.tsv"
-    shell:
-        """
-        python3 scripts/postprocess_superdca.py {input.loci} {input.couplings} > {output.couplings}
-	Rscript scripts/couplings_phylogenetic_ranking.R {output.couplings} {input.clusters} {input.alignment} {output.ranking}
-	"""
-
 rule tree:
     message: "Building tree"
     input:
@@ -350,21 +334,6 @@ rule nt_aa_table:
         python3 scripts/gbk2table.py {input.reference} > {output.nt_aa_table}
         """
 
-rule annotate_couplings:
-    message: "Annotate couplings with coding mutations"
-    input:
-        nt_aa_table = rules.nt_aa_table.output.nt_aa_table,
-	tree = rules.refine.output.tree,
-        nt = rules.ancestral.output.node_data,
-        aa = rules.translate.output.node_data,
-	couplings = rules.ranked_couplings.output.ranking
-    output:
-        couplings = "results/annotated_ranked_couplings.tsv"
-    shell:
-        """
-        python3 scripts/annotate_couplings.py {input.nt_aa_table} {input.tree} {input.nt} {input.aa} {input.couplings} > {output.couplings}
-        """
-
 rule traits:
     message:
         """
@@ -400,13 +369,46 @@ rule clades:
         nuc_muts = rules.ancestral.output.node_data,
         clades = files.clades
     output:
-        clade_data = "results/clades.json"
+        clade_data = "results/clades.json",
+        clade_csv = "results/clades.csv"
     shell:
         """
         augur clades --tree {input.tree} \
             --mutations {input.nuc_muts} {input.aa_muts} \
             --clades {input.clades} \
             --output-node-data {output.clade_data}
+        python3 scripts/clades2csv.py {output.clade_data} > {output.clade_csv}
+        """
+
+rule ranked_couplings:
+    message: "Post-process direct coupling analysis"
+    input:
+        clusters = rules.clades.output.clade_csv,
+        loci = rules.couplings.output.loci,
+        couplings = rules.couplings.output.couplings,
+	alignment = rules.couplings.output.alignment
+    output:
+        couplings = "results/couplings.tsv",
+        ranking = "results/ranked_couplings.tsv"
+    shell:
+        """
+        python3 scripts/postprocess_superdca.py {input.loci} {input.couplings} > {output.couplings}
+	Rscript scripts/couplings_phylogenetic_ranking.R {output.couplings} {input.clusters} {input.alignment} {output.ranking}
+	"""
+
+rule annotate_couplings:
+    message: "Annotate couplings with coding mutations"
+    input:
+        nt_aa_table = rules.nt_aa_table.output.nt_aa_table,
+	tree = rules.refine.output.tree,
+        nt = rules.ancestral.output.node_data,
+        aa = rules.translate.output.node_data,
+	couplings = rules.ranked_couplings.output.ranking
+    output:
+        couplings = "results/annotated_ranked_couplings.tsv"
+    shell:
+        """
+        python3 scripts/annotate_couplings.py {input.nt_aa_table} {input.tree} {input.nt} {input.aa} {input.couplings} > {output.couplings}
         """
 
 rule colors:
