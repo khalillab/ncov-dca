@@ -49,7 +49,7 @@ rule download:
         metadata = config["metadata"]
     shell:
         """
-        python3 scripts/preprocess_sequences.py {input.sequences:q} {output.sequences:q}
+        bash scripts/normalize_gisaid_fasta.sh {input.sequences:q} {output.sequences:q}
         cp {input.metadata:q} {output.metadata:q}
         """
 
