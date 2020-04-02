@@ -196,12 +196,12 @@ rule couplings:
     input:
         alignment = rules.mask.output.alignment
     output:
-        loci = "results/masked.filtered_ge005maf_le015gf_gt01-lt04alleles.loci",
-        couplings = "results/masked.filtered_ge005maf_le015gf_gt01-lt04alleles.4-states.SuperDCA_couplings.1-based.all",
-	alignment = "results/masked.filtered_ge005maf_le015gf_gt01-lt04alleles.fasta"
+        loci = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.loci",
+        couplings = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.4-states.SuperDCA_couplings.1-based.all",
+	alignment = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.fasta"
     shell:
         """
-        cd results/ && ../bin/SuperDCA --alignmentfile ../{input.alignment} -t 1 --output-weights --output-filtered-alignment --output-allele-frequencies --output-filterlist-alignment --maf-threshold 0.05
+        cd results/ && ../bin/SuperDCA --alignmentfile ../{input.alignment} -t 1 --output-weights --output-filtered-alignment --output-allele-frequencies --output-filterlist-alignment --maf-threshold 0.01
 	"""
 
 rule tree:
