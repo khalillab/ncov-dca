@@ -93,11 +93,19 @@ location	Paris
 location	Reims
 location	garches
 location	rennes
-location	château-thierry
 location	longjumeau
 location	Levallois-perret
 location	Pontoise
 location	Compiègne
+location	Woippy
+location	Spicheren
+location	Chateau-Thierry
+location	Asnières-sur-Seine
+location	Juvisy-sur-Orge
+location	Orsay
+location	Saint-Thibault-des-Vignes
+location	Gennevilliers
+location	Noisy le Roi
 location	Contamines
 location	Thise
 location	Montreux-Chateau
@@ -155,8 +163,12 @@ location	Dane County
 location	Boston
 location	Manhattan
 location	Nassau County
+location	Brooklyn
 
 location	Grand Princess Cruise Ship
+location	Luxembourg
+
+
 
 
 division	China
@@ -205,6 +217,7 @@ division	Sihanoukville
 division	Nonthaburi
 division	Singapore
 division	Queensland
+division	Northern Territory
 division	New South Wales
 division	Victoria
 division	Wellington
@@ -297,6 +310,7 @@ division	South Holland
 division	North Holland
 division	Luxembourg
 division	Austria
+division	Vienna
 division	Germany
 division	Zielonogorskie
 division	Basel
@@ -348,6 +362,8 @@ division	KwaZulu-Natal
 division	Mbour
 division	Touba
 division	Dakar
+division	St-Louis
+division	Thies
 division	Blida
 division	Boufarik
 division	Santiago
@@ -374,6 +390,7 @@ division	Florida
 division	Georgia
 division	Texas
 division	Utah
+division	Idaho
 division	Arizona
 division	California
 division	Oregon
@@ -394,6 +411,9 @@ division	Chiba
 division	Ishikawa
 division	Kochi
 division	Khyber Pakhtunkhwa
+
+
+
 
 country	China
 country	Hong Kong
@@ -429,6 +449,7 @@ country	Belgium
 country	Luxembourg
 country	Germany
 country	Austria
+country	Croatia
 country	Switzerland
 country	Italy
 country	Spain
@@ -439,6 +460,7 @@ country	Finland
 country	Sweden
 country	Portugal
 country	Greece
+country	Egypt
 country	Nigeria
 country	Senegal
 country	Algeria
