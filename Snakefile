@@ -214,7 +214,7 @@ rule subsample:
     input:
         rules.mask.output.alignment
     output:
-        "results/subsampled_alignment{region}.fasta"
+        "results/subsampled_alignment.fasta"
     shell:
         """
         cp {input} {output}
@@ -224,7 +224,7 @@ rule adjust_metadata:
     input:
         rules.download.output.metadata
     output:
-        "results/metadata_adjusted{region}.tsv"
+        "results/metadata_adjusted.tsv"
     shell:
         """
         cp {input} {output}
@@ -233,9 +233,9 @@ rule adjust_metadata:
 rule tree:
     message: "Building tree"
     input:
-        alignment = "results/subsampled_alignment{region}.fasta"
+        alignment = "results/subsampled_alignment.fasta"
     output:
-        tree = "results/tree_raw{region}.nwk"
+        tree = "results/tree_raw.nwk"
     threads: 4
     shell:
         """
@@ -256,10 +256,10 @@ rule refine:
     input:
         tree = rules.tree.output.tree,
         alignment = rules.mask.output,
-        metadata = "results/metadata_adjusted{region}.tsv"
+        metadata = "results/metadata_adjusted.tsv"
     output:
-        tree = "results/tree{region}.nwk",
-        node_data = "results/branch_lengths{region}.json"
+        tree = "results/tree.nwk",
+        node_data = "results/branch_lengths.json"
     threads: 1
     params:
         root = "Wuhan-Hu-1/2019 Wuhan/WH01/2019",
@@ -296,10 +296,10 @@ rule ancestral:
           - not inferring ambiguous mutations
         """
     input:
-        tree = "results/tree{region}.nwk",
+        tree = "results/tree.nwk",
         alignment = rules.mask.output
     output:
-        node_data = "results/nt_muts{region}.json"
+        node_data = "results/nt_muts.json"
     params:
         inference = "joint"
     shell:
@@ -310,7 +310,6 @@ rule ancestral:
             --output-node-data {output.node_data} \
             --inference {params.inference} \
             --infer-ambiguous \
-            --output-sequences {output.alignment}
         """
 
 rule haplotype_status:
@@ -318,7 +317,7 @@ rule haplotype_status:
     input:
         nt_muts = rules.ancestral.output.node_data
     output:
-        node_data = "results/haplotype_status{region}.json"
+        node_data = "results/haplotype_status.json"
     params:
         reference_node_name = "USA/WA1/2020"
     shell:
@@ -332,10 +331,11 @@ rule haplotype_status:
 rule translate:
     message: "Translating amino acid sequences"
     input:
-        tree = "results/tree{region}.nwk",
+        tree = "results/tree.nwk",
         node_data = rules.ancestral.output.node_data,
         reference = files.reference
-        node_data = "results/aa_muts{region}.json"
+    output:
+        node_data = "results/aa_muts.json"
     shell:
         """
         augur translate \
@@ -371,10 +371,10 @@ rule traits:
           - increase uncertainty of reconstruction by {params.sampling_bias_correction} to partially account for sampling bias
         """
     input:
-        tree = "results/tree{region}.nwk",
-        metadata = "results/metadata_adjusted{region}.tsv"
+        tree = "results/tree.nwk",
+        metadata = "results/metadata_adjusted.tsv"
     output:
-        node_data = "results/traits{region}.json",
+        node_data = "results/traits.json",
     params:
         columns = _get_exposure_trait_for_wildcards,
         sampling_bias_correction = 2.5
@@ -392,18 +392,18 @@ rule traits:
 rule clades:
     message: "Adding internal clade labels"
     input:
-        tree = "results/tree{region}.nwk",
+        tree = "results/tree.nwk",
         aa_muts = rules.translate.output.node_data,
         nuc_muts = rules.ancestral.output.node_data,
         clades = files.clades
     output:
-        clade_data = "results/clades{region}.json"
+        clade_data = "results/clades.json"
     shell:
         """
         augur clades --tree {input.tree} \
             --mutations {input.nuc_muts} {input.aa_muts} \
             --clades {input.clades} \
-            --output-node-data {output.clade_data}
+            --output-node-data {output.clade_data}        
         """
 
 rule annotate_couplings:
@@ -426,9 +426,9 @@ rule colors:
     input:
         ordering = files.ordering,
         color_schemes = files.color_schemes,
-        metadata = "results/metadata_adjusted{region}.tsv"
+        metadata = "results/metadata_adjusted.tsv"
     output:
-        colors = "config/colors{region}.tsv"
+        colors = "config/colors.tsv"
     shell:
         """
         python3 scripts/assign-colors.py \
@@ -441,9 +441,9 @@ rule colors:
 rule recency:
     message: "Use metadata on submission date to construct submission recency field"
     input:
-        metadata = "results/metadata_adjusted{region}.tsv"
+        metadata = "results/metadata_adjusted.tsv"
     output:
-        "results/recency{region}.json"
+        "results/recency.json"
     shell:
         """
         python3 scripts/construct-recency-from-submission-date.py \
@@ -455,9 +455,9 @@ rule tip_frequencies:
     message: "Estimating censored KDE frequencies for tips"
     input:
         tree = rules.refine.output.tree,
-        metadata = "results/metadata_adjusted{region}.tsv"
+        metadata = "results/metadata_adjusted.tsv"
     output:
-        tip_frequencies_json = "auspice/ncov{region}_tip-frequencies.json"
+        tip_frequencies_json = "auspice/ncov_tip-frequencies.json"
     params:
         min_date = 2020.0,
         pivot_interval = 1,
@@ -480,7 +480,7 @@ rule export:
     message: "Exporting data files for for auspice"
     input:
         tree = rules.refine.output.tree,
-        metadata = "results/metadata_adjusted{region}.tsv",
+        metadata = "results/metadata_adjusted.tsv",
         branch_lengths = rules.refine.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
@@ -489,10 +489,10 @@ rule export:
         colors = rules.colors.output.colors,
         lat_longs = files.lat_longs,
         description = files.description,
-        clades = "results/clades{region}.json",
+        clades = "results/clades.json",
         recency = rules.recency.output
     output:
-        auspice_json = "results/ncov_with_accessions{region}.json"
+        auspice_json = "results/ncov_with_accessions.json"
     shell:
         """
         augur export v2 \
@@ -510,7 +510,7 @@ rule export_gisaid:
     message: "Exporting data files for for auspice"
     input:
         tree = rules.refine.output.tree,
-        metadata = "results/metadata_adjusted{region}.tsv",
+        metadata = "results/metadata_adjusted.tsv",
         branch_lengths = rules.refine.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
@@ -522,7 +522,7 @@ rule export_gisaid:
         clades = rules.clades.output.clade_data,
         recency = rules.recency.output
     output:
-        auspice_json = "results/ncov_gisaid_with_accessions{region}.json"
+        auspice_json = "results/ncov_gisaid_with_accessions.json"
     shell:
         """
         augur export v2 \
@@ -540,7 +540,7 @@ rule export_zh:
     message: "Exporting data files for for auspice"
     input:
         tree = rules.refine.output.tree,
-        metadata = "results/metadata_adjusted{region}.tsv",
+        metadata = "results/metadata_adjusted.tsv",
         branch_lengths = rules.refine.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
@@ -552,7 +552,7 @@ rule export_zh:
         clades = rules.clades.output.clade_data,
         recency = rules.recency.output
     output:
-        auspice_json = "results/ncov_zh_with_accessions{region}.json"
+        auspice_json = "results/ncov_zh_with_accessions.json"
     shell:
         """
         augur export v2 \
@@ -576,7 +576,7 @@ rule incorporate_travel_history:
         sampling = _get_sampling_trait_for_wildcards,
         exposure = _get_exposure_trait_for_wildcards
     output:
-        auspice_json = "results/ncov_with_accessions_and_travel_branches{region}.json"
+        auspice_json = "results/ncov_with_accessions_and_travel_branches.json"
     shell:
         """
         python3 ./scripts/modify-tree-according-to-exposure.py \
@@ -598,7 +598,7 @@ rule incorporate_travel_history_gisaid:
         sampling = _get_sampling_trait_for_wildcards,
         exposure = _get_exposure_trait_for_wildcards
     output:
-        auspice_json = "results/ncov_gisaid_with_accessions_and_travel_branches{region}.json"
+        auspice_json = "results/ncov_gisaid_with_accessions_and_travel_branches.json"
     shell:
         """
         python3 ./scripts/modify-tree-according-to-exposure.py \
@@ -620,7 +620,7 @@ rule incorporate_travel_history_zh:
         sampling = _get_sampling_trait_for_wildcards,
         exposure = _get_exposure_trait_for_wildcards
     output:
-        auspice_json = "results/ncov_zh_with_accessions_and_travel_branches{region}.json"
+        auspice_json = "results/ncov_zh_with_accessions_and_travel_branches.json"
     shell:
         """
         python3 ./scripts/modify-tree-according-to-exposure.py \
@@ -637,7 +637,7 @@ rule fix_colorings:
     input:
         auspice_json = rules.incorporate_travel_history.output.auspice_json
     output:
-        auspice_json = "auspice/ncov{region}.json"
+        auspice_json = "auspice/ncov.json"
     shell:
         """
         python scripts/fix-colorings.py \
@@ -650,7 +650,7 @@ rule fix_colorings_gisaid:
     input:
         auspice_json = rules.incorporate_travel_history_gisaid.output.auspice_json
     output:
-        auspice_json = "auspice/ncov{region}_gisaid.json"
+        auspice_json = "auspice/ncov_gisaid.json"
     shell:
         """
         python scripts/fix-colorings.py \
@@ -663,7 +663,7 @@ rule fix_colorings_zh:
     input:
         auspice_json = rules.incorporate_travel_history_zh.output.auspice_json
     output:
-        auspice_json = "auspice/ncov{region}_zh.json"
+        auspice_json = "auspice/ncov_zh.json"
     shell:
         """
         python scripts/fix-colorings.py \
@@ -677,8 +677,8 @@ rule dated_json:
         auspice_json = rules.fix_colorings.output.auspice_json,
         tip_frequencies_json = rules.tip_frequencies.output.tip_frequencies_json
     output:
-        dated_auspice_json = "auspice/ncov{region}_{date}.json",
-        dated_tip_frequencies_json = "auspice/ncov{region}_{date}_tip-frequencies.json"
+        dated_auspice_json = "auspice/ncov_{date}.json",
+        dated_tip_frequencies_json = "auspice/ncov_{date}_tip-frequencies.json"
     shell:
         """
         cp {input.auspice_json} {output.dated_auspice_json}
