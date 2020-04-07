@@ -5,6 +5,7 @@ location	Jingzhou
 location	Pingxiang
 location	Zhongxian
 location	Yongchuan
+location	Beijing
 location	Chongqing
 location	Suzhou
 location	Chengdu
@@ -36,6 +37,7 @@ location	Bangkok
 location	Singapore
 location	Gold Coast
 location	Sydney
+location	Perth
 location	Sunshine Coast
 location	Melbourne
 location	Brisbane
@@ -90,10 +92,11 @@ location	Privas
 location	Valence
 location	Lyon
 location	Paris
+location	Levallois-Perret
 location	Reims
-location	garches
-location	rennes
-location	longjumeau
+location	Garches
+location	Rennes
+location	Longjumeau
 location	Levallois-perret
 location	Pontoise
 location	Compiègne
@@ -101,6 +104,7 @@ location	Woippy
 location	Spicheren
 location	Chateau-Thierry
 location	Asnières-sur-Seine
+location	Garches
 location	Juvisy-sur-Orge
 location	Orsay
 location	Saint-Thibault-des-Vignes
@@ -111,11 +115,44 @@ location	Thise
 location	Montreux-Chateau
 location	Rouen
 location	Leuven
+location	Villerot
+location	Poppel
+location	Havre
+location	Couillet
+location	Trazegnies
+location	Jumet
+location	Koersel
+location	Wandre
+location	Cuesmes
+location	Saive
+location	Quevaucamps
+location	Montignies-Sur-Sambre
+location	Tertre
+location	Heverlee
+location	Kain
+location	Winksele
+location	Jemappes
+location	Bassilly
+location	Blandain
+location	Neerpelt
+location	Geluwe
+location	Haulchin
+location	Bierset
+location	Saisinne
+location	Braine-le-Chateau
+location	Arbre
+location	Temploux
+location	Ladeuze
+location	Forchies-la-marche
+location	Yernee-fraineux
 location	Starnberg
 location	Strasbourg
 location	Rome
 location	Milan
-location	valencia
+location	L'Aquila
+location	Teramo
+location	Valencia
+location	Luxembourg
 location	England
 location	South Yorkshire
 location	Derbyshire
@@ -143,6 +180,9 @@ location	Kirkland
 location	Seattle
 location	Los Angeles
 location	California
+location	Ketchikan
+location	Fairbanks
+location	Anchorage
 location	San Francisco
 location	San Diego County
 location	Marin County
@@ -164,11 +204,9 @@ location	Boston
 location	Manhattan
 location	Nassau County
 location	Brooklyn
-
-location	Grand Princess Cruise Ship
-location	Luxembourg
-
-
+location	Queens
+location	Staten Island
+location	Bronx
 
 
 division	China
@@ -191,6 +229,8 @@ division	Taiwan
 division	Taoyuan
 division	Aichi
 division	Tokyo
+division	Chiba
+division	Ishikawa
 division	Saitama
 division	Nara
 division	Osaka
@@ -204,6 +244,8 @@ division	Selangor
 division	Kuala Lumpur
 division	Kathmandu
 division	Kerala
+division	Kochi
+division	Khyber Pakhtunkhwa
 division	Iran
 division	Kuwait
 division	Gilgit Baltistan
@@ -219,6 +261,7 @@ division	Singapore
 division	Queensland
 division	Northern Territory
 division	New South Wales
+division	Western Australia
 division	Victoria
 division	Wellington
 division	Otago
@@ -260,6 +303,92 @@ division	Madrid
 division	Flanders
 division	Beersel
 division	Leuven
+division	Zinnik
+division	Namur
+division	Sint-Agatha-Berchem
+division	Wevelgem
+division	Waterloo
+division	Stekene
+division	Lanaken
+division	Vilvoorde
+division	Charleroi
+division	Mouscron
+division	Zoutleeuw
+division	Nieuwerkerken
+division	Courcelles
+division	Bree
+division	Knokke-Heist
+division	Herve
+division	Oudergem
+division	La Louviere
+division	Ukkel
+division	Quaregnon
+division	Genappe
+division	Ath
+division	Doornik
+division	Theux
+division	Berloz
+division	Anderlecht
+division	Gent
+division	Waasmunster
+division	Tielt-Winge
+division	Dalhem
+division	Quevy
+division	Lubbeek
+division	Hemiksem
+division	Sint-Gillis-Waas
+division	Walloon Brabant
+division	Herent
+division	Silly
+division	Wervik
+division	Belgium
+division	Pelt
+division	Blegny
+division	Estinnes
+division	Ravels
+division	Tournai
+division	Lasne
+division	Herstal
+division	Boutersem
+division	Dendermonde
+division	Saint-Ghislain
+division	Soignies
+division	Henri-chapelle
+division	Elsene
+division	Sint-Genesius-Rode
+division	Wanze
+division	Seraing
+division	Riemst
+division	Oostrozebeke
+division	Geraardsbergen
+division	Herselt
+division	Montigny-le-Tilleul
+division	Beringen
+division	Soumagne
+division	Havelange
+division	Fontaine-l Eveque
+division	Lummen
+division	Mons
+division	Boussu
+division	Tienen
+division	Grimbergen
+division	Colfontaine
+division	Bonheiden
+division	Bierbeek
+division	Ronse
+division	Etterbeek
+division	Sint-Truiden
+division	Andenne
+division	Linter
+division	Alken
+division	Tervuren
+division	Watermaal-Bosvoorde
+division	Couvin
+division	Braine-l alleud
+division	Tubize
+division	Frameries
+division	Honnelles
+division	Hasselt
 division	Chaineux
 division	Kalmthout
 division	Ganshoren
@@ -281,11 +410,14 @@ division	Kraainem
 division	Huldenberg
 division	Brussels
 division	Liège
+division	Saint-Saulve
+division	Helden
 division	Switzerland
 division	Lucerne
 division	Bavaria
 division	Duesseldorf
 division	Baden-Wuerttemberg
+division	Munich
 division	North Rhine Westphalia
 division	Netherlands
 division	Utrecht
@@ -332,6 +464,8 @@ division	Marche
 division	Lombardy
 division	Abruzzo
 division	Rome
+division	Teramo
+division	Castel di Sangro
 division	Friuli Venezia Giulia
 division	Usti nad Labem
 division	Grand Canary Islands
@@ -339,10 +473,10 @@ division	Canary Islands
 division	La Rioja
 division	Lisbon
 division	Croatia
+division	United Kingdom
 division	Northern Ireland
 division	England
 division	Nottinghamshire
-division	United Kingdom
 division	Wales
 division	Dublin
 division	Tipperary
@@ -358,6 +492,7 @@ division	Denmark
 division	Portugal
 division	Lagos
 division	Kinshasa
+division	SudKivu
 division	KwaZulu-Natal
 division	Mbour
 division	Touba
@@ -383,37 +518,32 @@ division	Quito
 division	Panama City
 division	Mexico City
 division	USA
-division	Connecticut
-division	Rhode Island
-division	Virginia
+division	Alaska
+division	Texas
 division	Florida
 division	Georgia
-division	Texas
-division	Utah
-division	Idaho
-division	Arizona
-division	California
-division	Oregon
+division	Virginia
+division	Rhode Island
+division	Connecticut
+division	New York
+division	Massachusetts
+division	New Hampshire
 division	Illinois
 division	Wisconsin
 division	Minnesota
-division	Massachusetts
-division	New York
+division	Arizona
+division	Utah
+division	Idaho
+division	California
+division	Grand Princess
+division	Oregon
 division	Washington
-division	British Columbia
-division	Saskatchewan
 division	Nova Scotia
 division	New Brunswick
-division	Manitoba
 division	Ontario
-
-division	Chiba
-division	Ishikawa
-division	Kochi
-division	Khyber Pakhtunkhwa
-
-
-
+division	Manitoba
+division	Saskatchewan
+division	British Columbia
 
 country	China
 country	Hong Kong
@@ -437,9 +567,10 @@ country	Georgia
 country	Russia
 country	Europe
 country	Slovakia
+country	Slovenia
 country	Poland
 country	Hungary
-country Croatia
+country	Croatia
 country	France
 country	Iceland
 country	Norway
@@ -469,6 +600,7 @@ country	South Africa
 country	Chile
 country	Ecuador
 country	Brazil
+country	Argentina
 country	Colombia
 country	Panama
 country	Mexico
