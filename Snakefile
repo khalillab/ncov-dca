@@ -196,12 +196,16 @@ rule couplings:
     input:
         alignment = rules.mask.output.alignment
     output:
-        loci = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.loci",
-        couplings = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.4-states.SuperDCA_couplings.1-based.all",
-	alignment = "results/masked.filtered_ge001maf_le015gf_gt01-lt04alleles.fasta"
+        loci = "results/masked.loci",
+        couplings = "results/masked.couplings",
+	alignment = "results/masked.filtered.fasta"
     shell:
         """
-        cd results/ && ../bin/SuperDCA --alignmentfile ../{input.alignment} -t 1 --output-weights --output-filtered-alignment --output-allele-frequencies --output-filterlist-alignment --maf-threshold 0.01
+        cd results/ && SpydrPick -v --maf-threshold 0.01 --sample-reweighting-threshold 1 \
+        --linear-genome --mi-threshold 0.11 ../{input.alignment} && \
+        cp masked.filtered*edges ../{output.couplings} && \
+        cp masked.filtered*loci ../{output.loci} && \
+        cp masked.filtered*fasta ../{output.alignment}
 	"""
 
 rule tree:
@@ -380,22 +384,6 @@ rule clades:
         python3 scripts/clades2csv.py {output.clade_data} > {output.clade_csv}
         """
 
-rule ranked_couplings:
-    message: "Post-process direct coupling analysis"
-    input:
-        clusters = rules.clades.output.clade_csv,
-        loci = rules.couplings.output.loci,
-        couplings = rules.couplings.output.couplings,
-	alignment = rules.couplings.output.alignment
-    output:
-        couplings = "results/couplings.tsv",
-        ranking = "results/ranked_couplings.tsv"
-    shell:
-        """
-        python3 scripts/postprocess_superdca.py {input.loci} {input.couplings} > {output.couplings}
-	Rscript scripts/couplings_phylogenetic_ranking.R {output.couplings} {input.clusters} {input.alignment} {output.ranking}
-	"""
-
 rule annotate_couplings:
     message: "Annotate couplings with coding mutations"
     input:
@@ -403,7 +391,7 @@ rule annotate_couplings:
 	tree = rules.refine.output.tree,
         nt = rules.ancestral.output.node_data,
         aa = rules.translate.output.node_data,
-	couplings = rules.ranked_couplings.output.ranking
+	couplings = rules.couplings.output.couplings
     output:
         couplings = "results/annotated_ranked_couplings.tsv"
     shell:

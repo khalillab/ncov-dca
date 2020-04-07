@@ -22,7 +22,7 @@ def get_options():
     parser.add_argument('aa',
                         help='aa JSON file')
     parser.add_argument('couplings',
-                        help='Ranked couplings table')
+                        help='SpydrPick couplings table')
 
     return parser.parse_args()
 
@@ -81,14 +81,15 @@ if __name__ == "__main__":
                 nt_aa_muts[m] = nt_aa_muts.get(m, set())
                 nt_aa_muts[m].add((gene, nt_aa[m][gene]))
 
-    r = pd.read_csv(options.couplings, sep='\t')
+    r = pd.read_csv(options.couplings, sep=' ', header=None)
+    r.columns = ['pos1', 'pos2', 'distance', 'direct', 'coupling_strength']
 
-    pos = set(r[r.columns[1]]).union(r[r.columns[2]])
+    pos = set(r[r.columns[0]]).union(r[r.columns[1]])
 
     aa_pos = pos.intersection(nt_aa_muts)
 
-    r['both'] = False
-    r.loc[r[(r[r.columns[1]].isin(aa_pos)) & (r[r.columns[2]].isin(aa_pos))].index, 'both'] = True
+    r['both_coding'] = False
+    r.loc[r[(r[r.columns[0]].isin(aa_pos)) & (r[r.columns[1]].isin(aa_pos))].index, 'both_coding'] = True
 
     genes = set()
     for gene in sorted({gene for x in aa_pos
@@ -104,8 +105,6 @@ if __name__ == "__main__":
         for gene, pos in nt_aa_muts.get(int(v[2]), ()):
             r.loc[i, gene + '_2'] = pos
 
-    r = r[[r.columns[1], r.columns[2], 'coups.ranked.phyl.rank',
-           r.columns[0], 'both'] + sorted(genes)]
-    r.columns = ['pos1', 'pos2', 'phylogenetic_ranking',
-                 'coupling_strength', 'both_coding'] + sorted(genes)
+    r = r[['pos1', 'pos2', 'distance',
+           'direct', 'coupling_strength', 'both_coding'] + sorted(genes)]
     r.to_csv(sys.stdout, sep='\t', index=False)
