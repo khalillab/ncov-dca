@@ -421,6 +421,23 @@ rule annotate_couplings:
         python3 scripts/annotate_couplings.py {input.nt_aa_table} {input.tree} {input.nt} {input.aa} {input.couplings} > {output.couplings}
         """
 
+rule dca_report:
+    message: "Run the report on the results of DCA"
+    input:
+        nt = rules.ancestral.output.node_data,
+        aa = rules.translate.output.node_data,
+	tree = rules.refine.output.tree,
+	couplings = rules.annotate_couplings.output.couplings,
+        branch_lengths = rules.refine.output.node_data,
+        report = "couplings.ipynb",
+        template = "html.tpl"
+    output:
+        report = "couplings.html"
+    shell:
+        """
+        jupyter nbconvert --to html --template {input.template} {input.report} --ExecutePreprocessor.enabled=True --ExecutePreprocessor.timeout=600
+        """
+
 rule colors:
     message: "Constructing colors file"
     input:

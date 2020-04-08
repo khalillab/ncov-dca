@@ -1,3 +1,9 @@
+## ncov-dca
+
+This is a fork of the original [SARS-CoV-2 pipeline from nextstrain](https://github.com/nextstrain/ncov), aimed at looking for signs of co-evolution in the genomes sequenced to date.
+
+To run the pipeline make sure to have a bulk download of genomes from [GISAID](https://platform.gisaid.org/epi3/frontend) (`gisaid_cov2020_sequences.fasta`) and the latest `metadata.tsv` file, all in the base directory. Then type: `snakemake -p dca_report --cores N`, where `N` is the number of cores to be used in parallel.
+
 ## About  
 
 This is a [Nextstrain](https://nextstrain.org) build for novel coronavirus, alternately known as hCoV-19 or SARS-CoV-2 that is responsible for the COVID-19 pandemic. This build is visible at [nextstrain.org/ncov](https://nextstrain.org/ncov).
