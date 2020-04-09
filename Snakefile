@@ -240,7 +240,7 @@ rule tree:
         alignment = "results/subsampled_alignment.fasta"
     output:
         tree = "results/tree_raw.nwk"
-    threads: 4
+    threads: 8
     shell:
         """
         augur tree \
