@@ -434,7 +434,7 @@ rule dca_report:
 	couplings = rules.annotate_couplings.output.couplings,
         branch_lengths = rules.refine.output.node_data,
         report = "couplings.ipynb",
-        template = "html.tpl"
+        template = "template.tpl"
     output:
         report = "couplings.html"
     shell:
