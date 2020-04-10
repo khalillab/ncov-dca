@@ -1,4 +1,5 @@
 location	Abondant	48.790785	1.420178
+location	Accra	5.591875	-0.184552
 location	Aichi	35.067543	137.334061
 location	Anchorage	61.203109	-149.888095
 location	Andel	51.7851	5.0549
@@ -31,6 +32,7 @@ location	Chungcheongnam	36.685948	126.799198
 location	Clark County	45.778260	-122.491540
 location	Clayton	-37.915200	145.127165
 location	Coevorden	52.6614	6.7411
+location	Columbus	39.973143	-82.993618
 location	Compiègne	49.408175	2.842839
 location	Contamines	45.820585	6.727730
 location	Cork	51.899	-8.460
@@ -343,6 +345,7 @@ division	Grand Est	48.691467	5.566495
 division	Grand Canary Islands	27.9202	-15.5474
 division	Grand Princess	37.579905	-123.673130
 division	Graubünden	46.709551	9.606903
+division	Greater Accra	5.761619	0.040546
 division	Grimbergen	50.942962	4.375664
 division	Guangdong	23.615762	114.483257
 division	Gyeonggi	37.397957	127.380864
@@ -457,6 +460,7 @@ division	Northern Ireland	54.602190	-6.687146
 division	Nottinghamshire	53.134734	-0.989052
 division	Nova Scotia	44.879119	-64.020314
 division	Oevel	51.1387	4.9043
+division	Ohio	40.199215	-82.825637
 division	Ontario	44.429	-79.377
 division	Oostrozebeke	50.931551	3.338685
 division	Oregon	43.8041	-120.5542
@@ -519,8 +523,9 @@ division	South Yorkshire	53.4697	-1.3260
 division	Spain	40.4637	-3.7492
 division	St-Louis	16.0326	-16.4818
 division	Stekene	51.214088	4.030857
-division	SudKivu	-3.223156	28.386665
+division	Sud Kivu	-3.223156	28.386665
 division	Switzerland	46.8182	8.2275
+division	Taipei	25.002030	121.518688
 division	Taiwan	23.816900	121.031365
 division	Talca	-35.462909	-71.370960
 division	Taoyuan	24.9936	121.3010
@@ -583,6 +588,7 @@ division	North America	28.2367447	-97.738017
 division	Oceania	-25.0562891	152.008576
 division	South America	-13.083583	-58.470721
 
+
 country	Croatia	45.1000	15.2000
 country	Denmark	56.2639	9.5018
 country	Democratic Republic of the Congo	-4.0383	21.7587
@@ -590,11 +596,13 @@ country	Ecuador	-1.0541	-78.1489
 country	Egypt	26.8206	30.8025
 country	England	52.3555	-1.1743
 country	Georgia	41.989378	43.597463
+country	Ghana	7.811417	-1.089272
 country	Iceland	64.90614	-18.4826
 country	Iran	34.5732	51.876
 country	Luxembourg	49.755428	6.119486
 country	Norway	61.3109	8.73701
 country	Panama	8.98333	-79.5166
+country	Philippines	11.383086	123.521862
 country	Austria	47.5162	14.5501
 country	Croatia	45.1000	15.2000
 country	Africa	4.070194	21.824559
@@ -603,3 +611,4 @@ country	Europe	49.646237	10.799454
 country	North America	28.2367447	-97.738017
 country	Oceania	-25.0562891	152.008576
 country	South America	-13.083583	-58.470721
+country	Turkey	39.046746	36.767068
