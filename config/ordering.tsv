@@ -28,7 +28,6 @@ location	Hong Kong
 location	Taipei
 location	Taoyuan
 location	Kaohsiung
-location	Bangkok
 location	Aichi
 location	Tokyo
 location	Kyoto
@@ -158,6 +157,7 @@ location	Starnberg
 location	Strasbourg
 location	Rome
 location	Milan
+location	Verona
 location	L'Aquila
 location	Teramo
 location	Valencia
@@ -272,6 +272,7 @@ division	Red River Delta
 division	Quangning
 division	Sihanoukville
 division	Nonthaburi
+division	Bangkok
 division	Singapore
 division	Queensland
 division	Northern Territory
@@ -291,6 +292,7 @@ division	Baranya
 division	Kostoliste
 division	Kosice
 division	Bratislava
+division	Prague
 division	Martin
 division	Copenhagen
 division	Bretagne
@@ -455,6 +457,7 @@ division	North Brabant
 division	Flevoland
 division	South Holland
 division	North Holland
+division	Friesland
 division	Luxembourg
 division	Austria
 division	Vienna
@@ -480,6 +483,7 @@ division	Lombardy
 division	Abruzzo
 division	Rome
 division	Teramo
+division	Veneto
 division	Castel di Sangro
 division	Friuli Venezia Giulia
 division	Usti nad Labem
@@ -532,6 +536,8 @@ division	Amazonas State
 division	Antioquia
 division	Bogota
 division	Quito
+division	Guayas
+division	Pichincha
 division	Panama City
 division	Mexico City
 division	USA
