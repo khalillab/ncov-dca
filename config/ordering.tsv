@@ -13,6 +13,7 @@ location	Yongchuan
 location	Beijing
 location	Chongqing
 location	Suzhou
+location	Fuyang
 location	Chengdu
 location	Kunming
 location	Hangzhou
@@ -220,6 +221,8 @@ location	Staten Island
 location	Bronx
 location	Hudson County
 location	Westchester County
+location	Rockland
+location	Suffolk
 location	Accra
 
 
@@ -261,8 +264,10 @@ division	Kathmandu
 division	Kerala
 division	Kochi
 division	Khyber Pakhtunkhwa
+division	Ramat Gan
 division	Iran
 division	Kuwait
+division	Kayseri
 division	Gilgit Baltistan
 division	Tbilisi
 division	Thanh Hoa
@@ -540,11 +545,20 @@ division	Guayas
 division	Pichincha
 division	Panama City
 division	Mexico City
+division	Estado de Mexico
+division	Chihuahua
+division	Puebla
+division	Queretaro
 division	USA
-division	Alaska
+division	District of Columbia
+division	Maryland
 division	Texas
+division	Missouri
 division	Florida
 division	Georgia
+division	Louisiana
+division	North Carolina
+division	South Carolina
 division	Virginia
 division	Rhode Island
 division	Connecticut
@@ -552,19 +566,25 @@ division	New York
 division	New Jersey
 division	Massachusetts
 division	New Hampshire
+division	Pennsylvania
+division	Ohio
 division	Indiana
 division	Illinois
 division	Wisconsin
 division	Minnesota
+division	Iowa
+division	Nebraska
+division	Kansas
+division	Nevada
 division	Arizona
 division	Utah
-division	Ohio
 division	Wyoming
 division	Idaho
 division	California
 division	Grand Princess
 division	Oregon
 division	Washington
+division	Alaska
 division	Nova Scotia
 division	New Brunswick
 division	Ontario
@@ -591,6 +611,7 @@ country	New Zealand
 country	Saudi Arabia
 country	Kuwait
 country	Iran
+country	Israel
 country	Turkey
 country	Pakistan
 country	Georgia
