@@ -54,7 +54,6 @@ rule all:
 rule files:
     params:
         raw_sequences = 'gisaid_cov2020_sequences.fasta',
-        raw_metadata = 'metadata.tsv',
         include = "config/include.txt",
         exclude = "config/exclude.txt",
         reference = "config/reference.gb",
@@ -75,14 +74,11 @@ rule download:
     message: "Preprocessing fasta file"
     input:
         sequences = files.raw_sequences,
-        metadata = files.raw_metadata,
     output:
         sequences = config["sequences"],
-        metadata = config["metadata"]
     shell:
         """
         bash scripts/normalize_gisaid_fasta.sh {input.sequences:q} {output.sequences:q}
-        cp {input.metadata:q} {output.metadata:q}
         """
 
 rule filter:
