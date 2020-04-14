@@ -54,6 +54,7 @@ rule all:
 rule files:
     params:
         raw_sequences = 'gisaid_cov2020_sequences.fasta',
+        raw_metadata = 'data/metadata.tsv',
         include = "config/include.txt",
         exclude = "config/exclude.txt",
         reference = "config/reference.gb",
@@ -90,7 +91,7 @@ rule filter:
         """
     input:
         sequences = rules.download.output.sequences,
-        metadata = rules.download.output.metadata,
+        metadata = files.raw_metadata,
         include = files.include,
         exclude = files.exclude
     output:
@@ -246,7 +247,7 @@ rule subsample:
 
 rule adjust_metadata:
     input:
-        rules.download.output.metadata
+        files.raw_metadata
     output:
         "results/metadata_adjusted.tsv"
     shell:
