@@ -205,7 +205,7 @@ rule couplings:
 	alignment = "results/masked.filtered.fasta"
     shell:
         """
-        cd results/ && SpydrPick -v --maf-threshold 0.01 --sample-reweighting-threshold 1 \
+        cd results/ && SpydrPick -v --maf-threshold 0.005 --sample-reweighting-threshold 1 \
         --linear-genome --mi-threshold 0.11 ../{input.alignment} && \
         cp masked.filtered*edges ../{output.couplings} && \
         cp masked.filtered*loci ../{output.loci} && \
