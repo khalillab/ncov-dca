@@ -4,7 +4,7 @@ backcall==0.1.0
 bcbio-gff==0.6.6
 biopython==1.76
 bleach==3.1.4
-certifi==2020.4.5.1
+certifi==2022.12.7
 chardet==3.0.4
 ConfigArgParse==1.2
 cvxopt==1.1.9
